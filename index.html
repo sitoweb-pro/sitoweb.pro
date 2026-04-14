@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>SitoWeb.pro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0d0d0d;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 600px;
+      padding: 20px;
+    }
+
+    .box {
+      border: 1px solid #fff;
+      border-radius: 16px;
+      padding: 30px;
+      margin-top: 20px;
+    }
+
+    .highlight {
+      border-color: #00ff99;
+      color: #00ff99;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 18px;
+      border-radius: 10px;
+      border: none;
+      background: #ffffff;
+      color: #000;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>SitoWeb.pro</h1>
+  <p>Landing di tracking</p>
+
+  <!-- Contenuto normale -->
+  <div id="normalContent" class="box">
+    <h2>Benvenuto 👋</h2>
+    <p>Buona Navigazione.</p>
+  </div>
+
+  <!-- Contenuto QR -->
+  <div id="qrContent" class="box highlight hidden">
+    <h2>🚀 Accesso da QR</h2>
+    <p>Sei arrivato da un QR code!</p>
+    <p id="codeDisplay"></p>
+    <button onclick="alert('Contattaci ora!')">Contattaci</button>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const params = new URLSearchParams(window.location.search);
+    const codeFromUrl = params.get("a");
+
+    let source = codeFromUrl;
+
+    // fallback da localStorage
+    if (!source) {
+      source = localStorage.getItem("promo_source");
+    }
+
+    // salva sempre se arriva da URL
+    if (codeFromUrl) {
+      localStorage.setItem("promo_source", codeFromUrl);
+    }
+
+    // Se ESISTE QUALSIASI codice
+    if (source) {
+      document.getElementById("normalContent").classList.add("hidden");
+      document.getElementById("qrContent").classList.remove("hidden");
+      document.getElementById("codeDisplay").textContent = "Codice: " + source;
+
+      console.log("Accesso da QR:", source);
+    }
+  })();
+</script>
+
+</body>
+</html>
